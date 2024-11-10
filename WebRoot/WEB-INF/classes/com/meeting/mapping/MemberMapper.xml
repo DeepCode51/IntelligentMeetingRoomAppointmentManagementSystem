@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meeting.dao.MemberMapper">
+  <resultMap id="BaseResultMap" type="com.meeting.model.Member">
+    <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="staf_id" property="stafId" jdbcType="INTEGER" />
+  <result column="real_name" property="realName" jdbcType="VARCHAR" />
+  <result column="celphone" property="celphone" jdbcType="VARCHAR" />
+  <result column="email" property="email" jdbcType="VARCHAR" />
+  <result column="remark" property="remark" jdbcType="VARCHAR" />
+  <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+  <result column="meeting_id" property="meetingId" jdbcType="INTEGER" />
+  <result column="title" property="title" jdbcType="VARCHAR" />
+  <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+  <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+  <result column="room_id" property="roomId" jdbcType="INTEGER" />
+
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+     id,staf_id,real_name,celphone,email,remark,create_time,meeting_id,title,start_time,end_time,room_id
+  </sql>
+  <select id="selectByExample" parameterType="com.meeting.model.MemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+     <if test="startRow >= 0 and pageRows > 0">
+  limit ${startRow},${pageRows}
+  </if>
+
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+     from member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+   delete from member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.meeting.model.MemberExample">
+    delete from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.meeting.model.Member">
+      <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+  SELECT LAST_INSERT_ID()
+</selectKey>
+
+      insert into member (staf_id,real_name,celphone,email,remark,create_time,meeting_id,title,start_time,end_time,room_id)
+      values (	#{id,jdbcType=INTEGER},	#{stafId,jdbcType=INTEGER},	#{realName,jdbcType=VARCHAR},	#{celphone,jdbcType=VARCHAR},	#{email,jdbcType=VARCHAR},	#{remark,jdbcType=VARCHAR},	#{createTime,jdbcType=VARCHAR},	#{meetingId,jdbcType=INTEGER},	#{title,jdbcType=VARCHAR},	#{startTime,jdbcType=VARCHAR},	#{endTime,jdbcType=VARCHAR},	#{roomId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.meeting.model.Member">
+   <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+  SELECT LAST_INSERT_ID()
+</selectKey>
+
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null" >
+	  id,
+ </if>
+<if test="stafId != null" >
+	  staf_id,
+ </if>
+<if test="realName != null" >
+	  real_name,
+ </if>
+<if test="celphone != null" >
+	  celphone,
+ </if>
+<if test="email != null" >
+	  email,
+ </if>
+<if test="remark != null" >
+	  remark,
+ </if>
+<if test="createTime != null" >
+	  create_time,
+ </if>
+<if test="meetingId != null" >
+	  meeting_id,
+ </if>
+<if test="title != null" >
+	  title,
+ </if>
+<if test="startTime != null" >
+	  start_time,
+ </if>
+<if test="endTime != null" >
+	  end_time,
+ </if>
+<if test="roomId != null" >
+	  room_id
+ </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+         <if test="id != null" >
+	 #{id,jdbcType=INTEGER},
+	 </if>
+  <if test="stafId != null" >
+	 #{stafId,jdbcType=INTEGER},
+	 </if>
+  <if test="realName != null" >
+	 #{realName,jdbcType=VARCHAR},
+	 </if>
+  <if test="celphone != null" >
+	 #{celphone,jdbcType=VARCHAR},
+	 </if>
+  <if test="email != null" >
+	 #{email,jdbcType=VARCHAR},
+	 </if>
+  <if test="remark != null" >
+	 #{remark,jdbcType=VARCHAR},
+	 </if>
+  <if test="createTime != null" >
+	 #{createTime,jdbcType=VARCHAR},
+	 </if>
+  <if test="meetingId != null" >
+	 #{meetingId,jdbcType=INTEGER},
+	 </if>
+  <if test="title != null" >
+	 #{title,jdbcType=VARCHAR},
+	 </if>
+  <if test="startTime != null" >
+	 #{startTime,jdbcType=VARCHAR},
+	 </if>
+  <if test="endTime != null" >
+	 #{endTime,jdbcType=VARCHAR},
+	 </if>
+  <if test="roomId != null" >
+	 #{roomId,jdbcType=INTEGER},
+	 </if>
+
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.meeting.model.MemberExample" resultType="java.lang.Long">
+    select count(*) from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member
+    <set>
+       <if test="record.stafId != null" >
+	 staf_id = #{record.stafId,jdbcType=INTEGER},
+</if>
+ <if test="record.realName != null" >
+	 real_name = #{record.realName,jdbcType=VARCHAR},
+</if>
+ <if test="record.celphone != null" >
+	 celphone = #{record.celphone,jdbcType=VARCHAR},
+</if>
+ <if test="record.email != null" >
+	 email = #{record.email,jdbcType=VARCHAR},
+</if>
+ <if test="record.remark != null" >
+	 remark = #{record.remark,jdbcType=VARCHAR},
+</if>
+ <if test="record.createTime != null" >
+	 create_time = #{record.createTime,jdbcType=VARCHAR},
+</if>
+ <if test="record.meetingId != null" >
+	 meeting_id = #{record.meetingId,jdbcType=INTEGER},
+</if>
+ <if test="record.title != null" >
+	 title = #{record.title,jdbcType=VARCHAR},
+</if>
+ <if test="record.startTime != null" >
+	 start_time = #{record.startTime,jdbcType=VARCHAR},
+</if>
+ <if test="record.endTime != null" >
+	 end_time = #{record.endTime,jdbcType=VARCHAR},
+</if>
+ <if test="record.roomId != null" >
+	 room_id = #{record.roomId,jdbcType=INTEGER}
+</if>
+
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member
+    set 
+    				staf_id = #{record.stafId,jdbcType=INTEGER},	real_name = #{record.realName,jdbcType=VARCHAR},	celphone = #{record.celphone,jdbcType=VARCHAR},	email = #{record.email,jdbcType=VARCHAR},	remark = #{record.remark,jdbcType=VARCHAR},	create_time = #{record.createTime,jdbcType=VARCHAR},	meeting_id = #{record.meetingId,jdbcType=INTEGER},	title = #{record.title,jdbcType=VARCHAR},	start_time = #{record.startTime,jdbcType=VARCHAR},	end_time = #{record.endTime,jdbcType=VARCHAR},	room_id = #{record.roomId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.meeting.model.Member">
+    update member
+    <set>
+       <if test="stafId != null" >
+	 staf_id = #{stafId,jdbcType=INTEGER},
+</if>
+ <if test="realName != null" >
+	 real_name = #{realName,jdbcType=VARCHAR},
+</if>
+ <if test="celphone != null" >
+	 celphone = #{celphone,jdbcType=VARCHAR},
+</if>
+ <if test="email != null" >
+	 email = #{email,jdbcType=VARCHAR},
+</if>
+ <if test="remark != null" >
+	 remark = #{remark,jdbcType=VARCHAR},
+</if>
+ <if test="createTime != null" >
+	 create_time = #{createTime,jdbcType=VARCHAR},
+</if>
+ <if test="meetingId != null" >
+	 meeting_id = #{meetingId,jdbcType=INTEGER},
+</if>
+ <if test="title != null" >
+	 title = #{title,jdbcType=VARCHAR},
+</if>
+ <if test="startTime != null" >
+	 start_time = #{startTime,jdbcType=VARCHAR},
+</if>
+ <if test="endTime != null" >
+	 end_time = #{endTime,jdbcType=VARCHAR},
+</if>
+ <if test="roomId != null" >
+	 room_id = #{roomId,jdbcType=INTEGER}
+</if>
+
+    </set>
+     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.meeting.model.Member">
+    update member
+    set 
+     			staf_id = #{stafId,jdbcType=INTEGER},	real_name = #{realName,jdbcType=VARCHAR},	celphone = #{celphone,jdbcType=VARCHAR},	email = #{email,jdbcType=VARCHAR},	remark = #{remark,jdbcType=VARCHAR},	create_time = #{createTime,jdbcType=VARCHAR},	meeting_id = #{meetingId,jdbcType=INTEGER},	title = #{title,jdbcType=VARCHAR},	start_time = #{startTime,jdbcType=VARCHAR},	end_time = #{endTime,jdbcType=VARCHAR},	room_id = #{roomId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+</mapper>
